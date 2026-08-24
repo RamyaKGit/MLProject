@@ -1,0 +1,12 @@
+# Ignore Python virtual environments
+venv/
+.venv/
+env/
+
+# Ignore Conda environment folders
+.conda/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
