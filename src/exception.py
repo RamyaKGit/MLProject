@@ -1,9 +1,7 @@
 from os import error
 import sys
-import logger
-import logging
+from src.logger import logging
 
-log = logging.getLogger("mlprojects")
 
 def error_message_detail(error,error_detail:sys):
     _,_, exc_tb = error_detail.exc_info()
@@ -11,7 +9,6 @@ def error_message_detail(error,error_detail:sys):
     line_number = exc_tb.tb_lineno
     error_message = "error occurred in python script "
     f"file name [{file_name}] line number [{line_number}] error message [{error}]"
-    log.info(error_message)
     return error_message
 
 class CustomException(Exception):
@@ -28,4 +25,5 @@ if __name__ == '__main__':
         b = 0
         c = a/b
     except Exception as e:
+        logging.info("Divide by Zero")
         raise CustomException(e,sys)    

@@ -1,5 +1,3 @@
-from setuptools.command import rotate
-from os import name
 from setuptools import find_packages, setup
 from typing import List
 
