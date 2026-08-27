@@ -18,3 +18,5 @@ logs/
 .DS_Store
 
 notebook/catboost_info
+
+artifacts/
