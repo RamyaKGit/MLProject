@@ -11,6 +11,9 @@ from dataclasses import dataclass
 from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import DataTransformationConfig
 
+from src.components.model_trainer import ModelTrainer
+from src.components.model_trainer import ModelTrainerConfig
+
 @dataclass
 class DataIngestionConfig:
     raw_data_path: str = os.path.join("artifacts", "raw.csv")
@@ -45,11 +48,20 @@ class DataIngestion:
             raise CustomException(e, sys)
 
 if __name__ == "__main__":
-    data_ingestion = DataIngestion()
-    train_data, test_data = data_ingestion.initiate_data_ingestion()
-    print(train_data)
-    print(test_data)
-    data_transformation = DataTransformation()
-    data_transformation.initiate_data_transformation(train_path=train_data, test_path=test_data)
+    try:
+        data_ingestion = DataIngestion()
+        train_data, test_data = data_ingestion.initiate_data_ingestion()
+        
+        data_transformation = DataTransformation()
+        train_arr,test_arr,preprocessing_obj_file_path = data_transformation.initiate_data_transformation(train_path=train_data, test_path=test_data)
+        
+        logging.info("Initiating model training")
+
+        model_trainer = ModelTrainer()
+        logging.info("Best model r2 score="+str(model_trainer.initiate_model_training(train_arr,test_arr)))
+    except Exception as e:
+        logging.info(e)
+        raise CustomException(e, sys)
+
 
 
