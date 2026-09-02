@@ -4,6 +4,7 @@ from src.exception import CustomException
 from src.logger import logging
 import pickle
 from sklearn.metrics import mean_squared_error,mean_absolute_error,r2_score
+from sklearn.model_selection import GridSearchCV
 
 
 def save_object(file_path: str, obj: object):
@@ -25,13 +26,27 @@ def load_object(file_path: str) -> object:
         raise CustomException(e, sys)
 
 
-def evaluate_model(X_train, y_train, X_test, y_test, models):
+def evaluate_model(X_train, y_train, X_test, y_test, models, params):
     try:
         logging.info("Evaluating model")
         report = {}
 
         for model_name, model in models.items():
-            model.fit(X_train, y_train)
+
+            para=params[model_name]
+
+            logging.info("fitting {model_name} model")
+            if para:
+                grid_search = GridSearchCV(model, para, cv=3)
+                
+                grid_search.fit(X_train, y_train)
+                
+                model = grid_search.best_estimator_
+
+                model = model.fit(X_train, y_train)
+            else:
+                model.fit(X_train, y_train)
+            
             y_pred = model.predict(X_test)
             report[model_name] = {
                 "mse": mean_squared_error(y_test, y_pred),

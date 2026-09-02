@@ -45,19 +45,52 @@ class ModelTrainer:
             logging.info("Data split successfully")
             
             models = {
-                "LinearRegression":LinearRegression(),
-                "RandomForestRegressor":RandomForestRegressor(),
-                "AdaBoostRegressor":AdaBoostRegressor(),
-                "GradientBoostingRegressor":GradientBoostingRegressor(),
-                "XGBRegressor":XGBRegressor(),
-                "KNeighborsRegressor":KNeighborsRegressor(),
-                "DecisionTreeRegressor":DecisionTreeRegressor(),
-                "CatBoostRegressor":CatBoostRegressor()
+                "LinearRegression": LinearRegression(),
+                "RandomForestRegressor": RandomForestRegressor(),
+                "AdaBoostRegressor": AdaBoostRegressor(),
+                "GradientBoostingRegressor": GradientBoostingRegressor(),
+                "XGBRegressor": XGBRegressor(),
+                "KNeighborsRegressor": KNeighborsRegressor(),
+                "DecisionTreeRegressor": DecisionTreeRegressor(),
+                "CatBoostRegressor": CatBoostRegressor()
             }
             
+            params = {
+                "LinearRegression": {},
+                "RandomForestRegressor": {
+                    'n_estimators': [8, 16, 32, 64, 128, 256],
+                    # 'criterion': ['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+                    # 'max_features': ['sqrt', 'log2', None]
+                },
+                "AdaBoostRegressor": {
+                    'learning_rate': [0.1, 0.01, 0.5, 0.001],
+                    'n_estimators': [8, 16, 32, 64, 128, 256]
+                },
+                "GradientBoostingRegressor": {
+                    'learning_rate': [0.1, 0.01, 0.05, 0.001],
+                    'subsample': [0.6, 0.7, 0.75, 0.8, 0.85, 0.9],
+                    'n_estimators': [8, 16, 32, 64, 128, 256]
+                },
+                "XGBRegressor": {
+                    'learning_rate': [0.1, 0.01, 0.05, 0.001],
+                    'n_estimators': [8, 16, 32, 64, 128, 256]
+                },
+                "KNeighborsRegressor": {
+                    'n_neighbors': [3, 5, 7, 9, 11]
+                },
+                "DecisionTreeRegressor": {
+                    'criterion': ['squared_error', 'friedman_mse', 'absolute_error', 'poisson']
+                },
+                "CatBoostRegressor": {
+                    'depth': [6, 8, 10],
+                    'learning_rate': [0.01, 0.05, 0.1],
+                    'iterations': [30, 50, 100]
+                }
+            }
+
             logging.info("Model training started")
 
-            report:dict = evaluate_model(x_train,y_train,x_test,y_test,models)
+            report:dict = evaluate_model(x_train,y_train,x_test,y_test,models, params)
             
             best_model_name = find_best_model(report)
 
