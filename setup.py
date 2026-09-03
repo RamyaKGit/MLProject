@@ -10,7 +10,7 @@ def get_requirements(file_path:str)->List[str]:
         if "-e ." in requirements:
             requirements.remove("-e .")
     return requirements
-
+git reset
 
 setup(
 name = 'mlprojects',
