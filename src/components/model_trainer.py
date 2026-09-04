@@ -96,7 +96,7 @@ class ModelTrainer:
 
             best_model = models[best_model_name]
 
-            save_object(file_path='artifacts/best_model.pkl', obj=best_model)
+            save_object(file_path=os.path.join('artifacts', 'best_model.pkl'), obj=best_model)
 
             best_model.fit(x_train, y_train)
             best_model_y_pred = best_model.predict(x_test)

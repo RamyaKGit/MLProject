@@ -25,7 +25,7 @@ class DataTransformation:
     def get_data_transformation(self):
         try:
             logging.info("Creating the preprocessing pipeline")
-            train_path = "artifacts/train.csv"
+            train_path = os.path.join("artifacts","train.csv")
             train_df = pd.read_csv(train_path)
             logging.info("Data loaded successfully")
             
